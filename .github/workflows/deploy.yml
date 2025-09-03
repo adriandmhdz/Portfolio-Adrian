@@ -16,21 +16,22 @@ jobs:
 
       - name: Setup Node
         uses: actions/setup-node@v3
+        with:
+          node-version: 20
 
       - name: Install dependencies
-        uses: bahmutov/npm-install@v1
-        with:
-          working-directory: ./r3f-animation   # <-- add this
+        run: yarn install
+        working-directory: ./r3f-animation  
 
       - name: Build project
-        run: npm run build
-        working-directory: ./r3f-animation   # <-- add this
+        run: yarn build
+        working-directory: ./r3f-animation
 
       - name: Upload production-ready build files
         uses: actions/upload-artifact@v4
         with:
           name: production-files
-          path: ./r3f-animation/dist       # <-- point to correct folder
+          path: ./r3f-animation/dist
 
   deploy:
     name: Deploy
@@ -43,7 +44,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: production-files
-          path: ./dist                    # <-- can stay, Actions will copy here
+          path: ./dist
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
